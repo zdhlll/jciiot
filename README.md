@@ -55,13 +55,6 @@
 └── 提交文档（本文件与上表 4 份）
 ```
 
-## 证据与验证
 
-- 五关满分轨迹：`JCIIOT/team_submission/evidence/L1~L5/trajectory.json`（官方 `trajectory_template.json` schema，可用官方 `replay_trajectory` 回放）
-- 一键自检：`python JCIIOT/team_submission/audits/verify_final_submission.py`（证据完整性 + 满分 + 轨迹 schema + 受保护边界审计）
-
-## 技术路线
-
-官方 SOP Word 文档 → 双模型（VLM + 文本 LLM）自动编译为知识库 → 单一审计搬运工作流（A* 导航 + 阶段表脚本抓取 + 物理放置）逐关执行；抓取由分阶段脚本直接驱动 MuJoCo 物理仿真完成。
 
 
