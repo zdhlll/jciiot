@@ -1,0 +1,15 @@
+{
+  "baseline_commit": "0dcdddf18a9e694569aa1433cdfc04eb097fed78",
+  "head_commit": "6eea374497a60a77cd85199a1d5c26e477cd00a7",
+  "protected_files_checked": 4972,
+  "protected_modified": [],
+  "protected_added": [],
+  "protected_missing": [],
+  "changed_paths_total": 48,
+  "changed_paths_violating_allowed_prefixes": [],
+  "sop_generation_code_present": true,
+  "missing_sop_generation_code": [],
+  "summary": {
+    "compliant": true
+  }
+}
