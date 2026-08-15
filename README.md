@@ -1,6 +1,6 @@
 # JCIIOT 2026 工业具身智能挑战赛 — 团队最终提交
 
-> Notice: 官方 SOP 勘误见 [ERRATUM.md](./ERRATUM.md)（原样保留）。
+
 
 ## 成绩总览
 
