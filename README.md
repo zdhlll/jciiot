@@ -17,10 +17,6 @@
 
 评分由官方 `app.py` 内置 `_score_steps()` 依据执行轨迹 JSON 自动计算，全程无碰撞扣分。
 
-## 评审版本
-
-- 评审锁定标签：**`submission-final-100`**（`git checkout submission-final-100` 即可复现本提交）
-- 提交基于官方内容基线 `0dcdddf`（与官方仓库逐字节一致），团队全部改动集中在基线之上的提交里（含自检审计报告），可用 `git diff 0dcdddf..HEAD` 直接审计。
 
 ## 提交文档
 
