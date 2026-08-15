@@ -4,7 +4,7 @@
     "_comment": "LLM 大模型配置 —— 控制任务规划和视觉理解的模型接入",
     "ollama_base_url": "http://localhost:11434",
     "ollama_model": "qwen3.6:27b-mtp-q4_K_M",
-    "vision_model": "qwen3-vl:8b",
+    "vision_model": "glm-5v-turbo",
     "openai_base_url": "https://api.deepseek.com",
     "openai_model": "deepseek-v4-flash"
   },
@@ -12,11 +12,11 @@
     "_comment": "导航参数 —— 控制底盘移动的速度、精度和模式",
     "max_steps": 3000,
     "waypoint_tolerance": 0.01,
-    "settle_steps": 5,
-    "max_linear": 0.70,
-    "max_angular": 1.20,
-    "k_linear": 1.2,
-    "k_angular": 1.8,
+    "settle_steps": 0,
+    "max_linear": 2.00,
+    "max_angular": 3.00,
+    "k_linear": 2.00,
+    "k_angular": 3.00,
     "holonomic_base": true,
     "yaw_control": false,
     "turn_in_place_angle": 0.65,
@@ -24,11 +24,11 @@
     "control_freq": 20
   },
   "grasp_policy": {
-    "_comment": "BC 抓取策略参数 —— 控制基于行为克隆的抓取执行",
-    "checkpoint_path": "robosuite/robosuite/model_epoch_500.pth",
+    "_comment": "BC 抓取策略参数 —— 控制基于行为克隆的抓取执行(jci_test: 完全 BC 模式,对齐 model_epoch_200 的训练配置 up40/xy80/down80/settle50/grasp40/hold10 = 300 步回合)",
+    "checkpoint_path": "robosuite/robosuite/model_epoch_200.pth",
     "checkpoint_fallback_path": "robosuite/robosuite/model_epoch_150.pth",
-    "eval_steps": 360,
-    "post_hold_steps": 5,
+    "eval_steps": 490,
+    "post_hold_steps": 10,
     "initial_view_steps": 5,
     "debug_policy": false,
     "debug_every": 25,
@@ -47,13 +47,13 @@
     "tolerance": 0.02,
     "max_iters": 8,
     "turn_steps": 40,
-    "settle_steps": 10
+    "settle_steps": 6
   },
   "place": {
     "_comment": "放置参数 —— 控制物体下放和释放的精细操作",
     "lower_delta": 0.18,
     "lower_steps": 25,
-    "release_steps": 60,
+    "release_steps": 40,
     "release_clearance": 0.04
   }
 }

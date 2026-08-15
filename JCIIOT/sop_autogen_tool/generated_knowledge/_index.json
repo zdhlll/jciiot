@@ -1,0 +1,76 @@
+{
+  "updated_at": "2026-07-28T15:40:45",
+  "document_count": 6,
+  "documents": {
+    "sop1.md": {
+      "title": "L1 Task - Single-line Transport",
+      "category": "sop",
+      "tags": [
+        "L1",
+        "input_5",
+        "output_4",
+        "input_1"
+      ],
+      "added_at": "2026-07-28T15:40:45"
+    },
+    "sop2.md": {
+      "title": "L2 Task - Cross-line Transport + Obstacle Avoidance",
+      "category": "sop",
+      "tags": [
+        "L2",
+        "input_6",
+        "output_4",
+        "input_1"
+      ],
+      "added_at": "2026-07-28T15:40:45"
+    },
+    "sop3.md": {
+      "title": "L3 Task - Cross-line Transport + Obstacle + Interference",
+      "category": "sop",
+      "tags": [
+        "L3",
+        "input_1",
+        "output_5",
+        "input_6"
+      ],
+      "added_at": "2026-07-28T15:40:45"
+    },
+    "sop4.md": {
+      "title": "L4 Task - Large Object Cross-line Transport",
+      "category": "sop",
+      "tags": [
+        "L4",
+        "input_2",
+        "output_5",
+        "input_1"
+      ],
+      "added_at": "2026-07-28T15:40:45"
+    },
+    "sop5.md": {
+      "title": "L5 Task - Extreme Distance Transport",
+      "category": "sop",
+      "tags": [
+        "L5",
+        "input_1",
+        "output_1",
+        "output_6"
+      ],
+      "added_at": "2026-07-28T15:40:45"
+    },
+    "sop_main.md": {
+      "title": "Standard Operating Procedure (SOP)",
+      "category": "sop",
+      "tags": [
+        "L1",
+        "input_5",
+        "output_4",
+        "L2",
+        "input_6",
+        "L3",
+        "input_1",
+        "output_5"
+      ],
+      "added_at": "2026-07-28T15:40:45"
+    }
+  }
+}

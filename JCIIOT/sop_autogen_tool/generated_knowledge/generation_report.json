@@ -1,0 +1,94 @@
+{
+  "generated_at": "2026-07-28T15:39:23",
+  "project_root": "/home/zhouyang/JCIIOT/jciiot_new/JCIIOT2026/JCIIOT",
+  "out_dir": "/home/zhouyang/JCIIOT/jciiot_new/JCIIOT2026/JCIIOT/generated_knowledge",
+  "forbidden_reference_sops": [
+    "knowledge/sop1.md",
+    "knowledge/sop2.md",
+    "knowledge/sop3.md",
+    "knowledge/sop4.md",
+    "knowledge/sop5.md",
+    "knowledge/sop_main.md"
+  ],
+  "cases": [
+    {
+      "level": "L1",
+      "docx": "JCIIOT 2026 case 1 SOP.docx",
+      "output": "/home/zhouyang/JCIIOT/jciiot_new/JCIIOT2026/JCIIOT/generated_knowledge/sop1.md",
+      "llm_used": true,
+      "vlm_used": false,
+      "source": "input_5",
+      "target": "output_4",
+      "object_names": [
+        "['line_5_container_h01_near', 'line_5_container_h01_far']"
+      ],
+      "warnings": [
+        "Filled missing exact object_name from task_config validation data."
+      ]
+    },
+    {
+      "level": "L2",
+      "docx": "JCIIOT 2026 case 3 SOP.docx",
+      "output": "/home/zhouyang/JCIIOT/jciiot_new/JCIIOT2026/JCIIOT/generated_knowledge/sop2.md",
+      "llm_used": true,
+      "vlm_used": false,
+      "source": "input_6",
+      "target": "output_4",
+      "object_names": [
+        "['green_tote_b01_upper', 'green_tote_b01_lower']"
+      ],
+      "warnings": [
+        "Filled missing exact object_name from task_config validation data."
+      ]
+    },
+    {
+      "level": "L3",
+      "docx": "JCIIOT 2026 case 5 SOP.docx",
+      "output": "/home/zhouyang/JCIIOT/jciiot_new/JCIIOT2026/JCIIOT/generated_knowledge/sop3.md",
+      "llm_used": true,
+      "vlm_used": false,
+      "source": "aux_input_1",
+      "target": "output_5",
+      "object_names": [
+        "['blue_tote_b01_far_right', 'blue_tote_b01_near_right']"
+      ],
+      "warnings": [
+        "Source mismatch: docx/model derived input_6, task_config has aux_input_1.",
+        "Corrected source from task_config validation data.",
+        "Filled missing exact object_name from task_config validation data."
+      ]
+    },
+    {
+      "level": "L4",
+      "docx": "JCIIOT 2026 case 7 SOP.docx",
+      "output": "/home/zhouyang/JCIIOT/jciiot_new/JCIIOT2026/JCIIOT/generated_knowledge/sop4.md",
+      "llm_used": true,
+      "vlm_used": false,
+      "source": "input_2",
+      "target": "output_5",
+      "object_names": [
+        "['blue_container_h01_back_upper', 'blue_container_h01_back_lower']"
+      ],
+      "warnings": [
+        "Filled missing exact object_name from task_config validation data."
+      ]
+    },
+    {
+      "level": "L5",
+      "docx": "JCIIOT 2026 case 9 SOP.docx",
+      "output": "/home/zhouyang/JCIIOT/jciiot_new/JCIIOT2026/JCIIOT/generated_knowledge/sop5.md",
+      "llm_used": true,
+      "vlm_used": false,
+      "source": "input_1",
+      "target": "aux_output_1",
+      "object_names": [
+        "['white_tote_b01_left_center', 'white_tote_b01_left_front', 'white_tote_b01_left_back']"
+      ],
+      "warnings": [
+        "Target mismatch: docx/model derived output_6, task_config has aux_output_1.",
+        "Corrected target from task_config validation data.",
+        "Filled missing exact object_name from task_config validation data."
+      ]
+    }
+  ]
+}

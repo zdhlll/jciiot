@@ -1,0 +1,25 @@
+{
+  "task_index": 3,
+  "env_name": "FactorySorting7_3FO3ERFKY9RN",
+  "status": "OK",
+  "trajectory": "/home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting7_3FO3ERFKY9RN/trajectory_20260815_184611_OK.json",
+  "elapsed_sec": 111.304,
+  "score": 25,
+  "score_rule_version": "grasp_success_gate_l5_multi_v2",
+  "details": {
+    "total": 25,
+    "items": [
+      {
+        "label": "Grasp success & left source (grasp=yes, dx_src=14.71m, dy_src=12.28m)",
+        "score": 12,
+        "ok": true
+      },
+      {
+        "label": "Object reached target table after grasp (grasp=yes, dist=0.07m, x=4.95, y=-7.27, z=1.22)",
+        "score": 13,
+        "ok": true
+      }
+    ]
+  },
+  "saved_at": "2026-08-15 18:48:02"
+}

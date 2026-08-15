@@ -1,37 +1,47 @@
-<!-- COMPETITION LOCKED — DO NOT MODIFY -->
+<!-- AI-GENERATED FROM DOCX - DO NOT MODIFY MANUALLY -->
 
-# L5 Task — Extreme Distance Transport
+# L5 Task - Extreme Distance Transport
 
 Level: L5 (max 30 points)
 Scene: factory_sorting_9
 
 ## Task
 
-Transport three large white tote boxes from Pick Station 6 to Place Station 1.
+Move the three white-rimmed storage bins from Pick Station 6 to Place Station 1
 
 ## Station Mapping
 
 - Pick Station 6 = input_1, center (-14.54, 5.01)
-- Place Station 1 = output_6, center (10.03, -7.27)
+- Place Station 6 = aux_output_1, center (0.14, 8.47)
 - Robot start: (13.5, 0.0)
-- Target objects:
-  - white_tote_b01_left_center
-  - white_tote_b01_left_front
-  - white_tote_b01_left_back
+- Target object: ['white_tote_b01_left_center', 'white_tote_b01_left_front', 'white_tote_b01_left_back']
 
 ## Grasp Pose (BC Policy)
 
-- Robot stop point at input_1: (5.03, -3.84, 0.0), yaw=-3.14
+- Robot stop point at input_1: (5.03, -3.84, 0.0), yaw=-3.140
 
 ## Object Inventory (L5 Scene)
 
 Every input port and its assigned graspable object:
 
-- input_1: white_tote_b01_left_center, white_tote_b01_left_front, white_tote_b01_left_back
-- input_2 → blue_container_h01_back_center, blue_container_h01_back_left, blue_container_h01_back_right
-- input_3 → dark_tote_b01_upper, dark_tote_b01_lower
-- input_4 → line_4_container_h01
-- input_5 → line_5_container_h10
-- input_6 → line_6_tote_b01
+- input_1: white-rimmed storage bins, ['white_tote_b01_left_center', 'white_tote_b01_left_front', 'white_tote_b01_left_back']
 
 CRITICAL: When calling pick_up, you MUST provide the exact object_name from the inventory above.
+
+## SOP Constraints
+
+- Do not pick up wrong materials.
+- Avoid collisions during transport.
+- Ensure placement is not crooked.
+- Dodge obstacles on path.
+
+## Generation Evidence
+
+- Source DOCX: `sop+prompt/JCIIOT 2026 case 9 SOP.docx`
+- Runtime policy: existing `knowledge/sop*.md` files were not read.
+
+## Generation Warnings
+
+- Target mismatch: docx/model derived output_6, task_config has aux_output_1.
+- Corrected target from task_config validation data.
+- Filled missing exact object_name from task_config validation data.

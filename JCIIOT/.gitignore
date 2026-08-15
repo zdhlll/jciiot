@@ -1,0 +1,46 @@
+# ── Python ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.env
+
+# ── 运行时产物（不提交，证据轨迹在 team_submission/evidence/）──
+recordings/
+memory.json
+MUJOCO_LOG.TXT
+new/
+
+# ── 本地凭据（严禁提交明文密钥）──────────────────────────
+.local/
+team_submission/.local/
+
+# ── 团队模型（本路线全部采用脚本抓取，无 BC checkpoint）─────
+team_submission/models/
+
+# ── 本地实验脚本与工具 ───────────────────────────────────
+scripts/
+src/robot_agent/workflows/collect_factory_sorting.py
+test_move_auxiliary_navigation.py
+
+# ── 未跟踪的训练中间 checkpoint（不入库）──────────────────
+robosuite/robosuite/last1.pth
+robosuite/robosuite/model_epoch_100.pth
+robosuite/robosuite/model_epoch_200.pth
+robosuite/robosuite/model_epoch_300.pth
+robosuite/robosuite/model_epoch_700.pth
+robosuite/robosuite/model_epoch_800.pth
+robosuite/robosuite/model_epoch_900.pth
+robosuite/robosuite/model_epoch_1000.pth
+robosuite/robosuite/model_epoch_1100.pth
+robosuite/robosuite/model_epoch_1400_V.pth
+robosuite/robosuite/model_epoch_200_V.pth
+robomimic/exps/
+
+# ── 私有演示数据 ─────────────────────────────────────────
+robosuite/robosuite/models/assets/*.hdf5
+
+# ── SOP 生成工具：docx 副本与缓存不提交（代码保留供评委审查）──
+sop_autogen_tool/sop+prompt/
+sop_autogen_tool/__pycache__/
+sop_autogen_tool/sop_autogen_toolgenerated_knowledge/

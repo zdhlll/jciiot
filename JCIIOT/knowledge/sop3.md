@@ -1,34 +1,42 @@
-<!-- COMPETITION LOCKED — DO NOT MODIFY -->
+<!-- AI-GENERATED FROM DOCX - DO NOT MODIFY MANUALLY -->
 
-# L3 Task — Cross-line Transport + Obstacle + Interference
+# L3 Task - Cross-line Transport + Obstacle + Interference
 
 Level: L3 (max 20 points)
 Scene: factory_sorting_5
 
 ## Task
 
-Transport an orange tote box from Pick Station 1 to Place Station 2
+Transport a blue material transfer bin from Pick Station 1 to Place Station 2
 
 ## Station Mapping
 
-- Pick Station 1 = input_6, center (11.94, 3.93)
+- Pick Station 1 = aux_input_1, center (0.14, 8.47)
 - Place Station 2 = output_5, center (4.87, -7.26)
 - Robot start: (13.5, 0.0)
-- Target object: orange_tote_b01_upper
-
-## Grasp Pose (BC Policy)
-
-- Robot stop point at input_6: (6.00, 4.80, 0.0), yaw=3.14
+- Target object: ['blue_tote_b01_far_right', 'blue_tote_b01_near_right']
 
 ## Object Inventory (L3 Scene)
 
 Every input port and its assigned graspable object:
 
-- input_1 → line_1_container_h01
-- input_2 → line_2_container_h10
-- input_3 → blue_container_h10_back
-- input_4 → orange_tote_b01_upper, orange_tote_b01_lower
-- input_5 → line_5_container_h10
-- input_6 → line_6_tote_b01
+- input_1: blue material transfer bin
 
 CRITICAL: When calling pick_up, you MUST provide the exact object_name from the inventory above.
+
+## SOP Constraints
+
+- Ensure path safety and feasibility.
+- Confirm material stability during transport.
+- Verify placement area is unoccupied before placing.
+
+## Generation Evidence
+
+- Source DOCX: `sop+prompt/JCIIOT 2026 case 5 SOP.docx`
+- Runtime policy: existing `knowledge/sop*.md` files were not read.
+
+## Generation Warnings
+
+- Source mismatch: docx/model derived input_6, task_config has aux_input_1.
+- Corrected source from task_config validation data.
+- Filled missing exact object_name from task_config validation data.
