@@ -4,12 +4,12 @@
   "env_name": "FactorySorting1_3FO3ERFHISEM",
   "status": "OK",
   "success": true,
-  "trajectory": "/home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting1_3FO3ERFHISEM/trajectory_20260815_184139_OK.json",
-  "running_trajectory": "/home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting1_3FO3ERFHISEM/trajectory_20260815_184139_RUNNING.json",
+  "trajectory": "/home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting1_3FO3ERFHISEM/trajectory_20260816_201810_OK.json",
+  "running_trajectory": "/home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting1_3FO3ERFHISEM/trajectory_20260816_201810_RUNNING.json",
   "result": {
     "skill_name": "composed",
     "success": true,
-    "message": "该计划严格按照SOP执行，确保安全高效地完成运输任务。",
+    "message": "该计划严格按照SOP执行，从取货到放置，确保任务完成。",
     "steps": [
       {
         "skill": "move",
@@ -151,15 +151,15 @@
           "description": "在放置工位放下物体"
         }
       ],
-      "result_explanation": "该计划严格按照SOP执行，确保安全高效地完成运输任务。"
+      "result_explanation": "该计划严格按照SOP执行，从取货到放置，确保任务完成。"
     },
-    "planner_raw": "{\n  \"understanding\": \"将蓝色空心塑料盒从 Pick Station 2 (input_5) 运输到 Place Station 3 (output_4)，遵循标准操作流程。\",\n  \"reason\": \"根据SOP，任务需要依次执行移动至取货点、抓取物体、移动至放置点、放置物体四个步骤。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位接近点\",\n      \"inputs\": {\"target\": \"input_5\"},\n      \"preconditions\": [\"底盘静止于起始位置\"],\n      \"expected_output\": \"机器人到达目标工位停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在取货工位抓取目标物体\",\n      \"inputs\": {\"target\": \"input_5\", \"object_name\": \"line_5_container_h01_near\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带物体导航至放置工位\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"夹爪已持握物体\"],\n      \"expected_output\": \"机器人到达放置工位停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在放置工位放下物体\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"底盘已停稳于放置点\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"该计划严格按照SOP执行，确保安全高效地完成运输任务。\"\n}",
+    "planner_raw": "{\n  \"understanding\": \"将蓝色空心塑料盒从 Pick Station 2 (input_5) 运输到 Place Station 3 (output_4)，遵循标准操作流程。\",\n  \"reason\": \"根据SOP，任务需要依次执行移动至取货点、抓取物体、移动至放置点、放置物体四个步骤。\",\n  \"plan\": [\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"导航至取货工位接近点\",\n      \"inputs\": {\"target\": \"input_5\"},\n      \"preconditions\": [\"底盘静止于起始位置\"],\n      \"expected_output\": \"机器人到达目标工位停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"pick_up\",\n      \"description\": \"在取货工位抓取目标物体\",\n      \"inputs\": {\"target\": \"input_5\", \"object_name\": \"line_5_container_h01_near\"},\n      \"preconditions\": [\"夹爪为空\", \"底盘已停稳\"],\n      \"expected_output\": \"成功抓取物体并提升至安全高度\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"move\",\n      \"description\": \"携带物体导航至放置工位\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"夹爪已持握物体\"],\n      \"expected_output\": \"机器人到达放置工位停止点\",\n      \"timeout\": 300,\n      \"retries\": 0\n    },\n    {\n      \"skill_name\": \"place_down\",\n      \"description\": \"在放置工位放下物体\",\n      \"inputs\": {\"target\": \"output_4\"},\n      \"preconditions\": [\"底盘已停稳于放置点\"],\n      \"expected_output\": \"物体放置成功，夹爪释放并收回\",\n      \"timeout\": 300,\n      \"retries\": 0\n    }\n  ],\n  \"explanation\": \"该计划严格按照SOP执行，从取货到放置，确保任务完成。\"\n}",
     "plan_warnings": [],
-    "elapsed_ms": 55633.9
+    "elapsed_ms": 51588.6
   },
-  "elapsed_sec": 72.107,
+  "elapsed_sec": 67.714,
   "error": null,
   "traceback": null,
   "phase": "before_close",
-  "saved_at": "2026-08-15 18:42:52"
+  "saved_at": "2026-08-16 20:19:19"
 }

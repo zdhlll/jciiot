@@ -142,6 +142,8 @@ class PlaceDownSkill(BaseSkill):
         if raw is None or not held_name:
             return False
 
+        # 放置转向:旋转已由 move 层沿网格安全腿完成(goal_yaw
+        # 注入),这里原地转向只剩零角度残量;未注入时兜底照旧。
         posture = _capture_upper_body_posture(raw, raw.robots[0])
 
         def _turn_step() -> None:
@@ -161,6 +163,7 @@ class PlaceDownSkill(BaseSkill):
             sync_attachment=True,
             post_step_callback=_turn_step,
         )
+        _restore_upper_body_posture(raw, posture)
         if not turned.get("success", False):
             return False
 

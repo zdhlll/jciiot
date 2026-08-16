@@ -378,7 +378,8 @@ def _issue_arm_step(env, robot, targets, *, use_gripper_centers: bool, gripper_v
     env.step(collector.build_action(env, robot, arm_actions, gripper_value))
 
 
-def _drive_arms_to(env, robot, targets, *, steps: int, gripper_value: float, tolerance):
+def _drive_arms_to(env, robot, targets, *, steps: int, gripper_value: float, tolerance,
+                   record_cb=None):
     """插值逼近目标,再以有界闭环收敛;返回 (ok, 各臂距离)。"""
     collector = _geometry_collector()
     starts = {arm: collector.get_eef_pos(env, robot, arm) for arm in ("right", "left")}
@@ -390,6 +391,8 @@ def _drive_arms_to(env, robot, targets, *, steps: int, gripper_value: float, tol
              for arm in ("right", "left")},
             use_gripper_centers=False, gripper_value=gripper_value,
         )
+        if record_cb is not None:
+            record_cb()
     distances = {
         arm: float(np.linalg.norm(collector.get_eef_pos(env, robot, arm) - targets[arm]))
         for arm in ("right", "left")
@@ -400,6 +403,8 @@ def _drive_arms_to(env, robot, targets, *, steps: int, gripper_value: float, tol
         if all(d <= tolerance for d in distances.values()):
             return True, distances
         _issue_arm_step(env, robot, targets, use_gripper_centers=False, gripper_value=gripper_value)
+        if record_cb is not None:
+            record_cb()
         distances = {
             arm: float(np.linalg.norm(collector.get_eef_pos(env, robot, arm) - targets[arm]))
             for arm in ("right", "left")
@@ -407,7 +412,7 @@ def _drive_arms_to(env, robot, targets, *, steps: int, gripper_value: float, tol
     return all(d <= tolerance for d in distances.values()), distances
 
 
-def _settle_gripper_centers_at(env, robot, targets) -> tuple[bool, dict]:
+def _settle_gripper_centers_at(env, robot, targets, record_cb=None) -> tuple[bool, dict]:
     """用 gripper 末端中心闭环收敛到目标(提前退出)。"""
     collector = _geometry_collector()
     for _ in range(_SETTLE_MAX_STEPS):
@@ -418,11 +423,14 @@ def _settle_gripper_centers_at(env, robot, targets) -> tuple[bool, dict]:
         if all(d <= _SETTLE_TOLERANCE for d in distances.values()):
             return True, distances
         _issue_arm_step(env, robot, targets, use_gripper_centers=True, gripper_value=-1.0)
+        if record_cb is not None:
+            record_cb()
     distances = {
         arm: float(np.linalg.norm(collector.gripper_end_center_pos(env, robot, arm) - targets[arm]))
         for arm in ("right", "left")
     }
     return all(d <= _SETTLE_TOLERANCE for d in distances.values()), distances
+
 
 
 def _staged_scripted_grasp(backend, object_name: str, source: str) -> tuple[bool, dict]:
@@ -521,12 +529,15 @@ def _staged_scripted_grasp(backend, object_name: str, source: str) -> tuple[bool
         ok, distances = _drive_arms_to(
             env, robot, waypoints[label],
             steps=steps, gripper_value=-1.0, tolerance=None,
+            record_cb=record_frame,
         )
         stages.append({"stage": label, "success": ok, "distances": distances})
         if not ok:
             return fail(label)
 
-    settled, distances = _settle_gripper_centers_at(env, robot, below_targets)
+    settled, distances = _settle_gripper_centers_at(
+        env, robot, below_targets, record_cb=record_frame,
+    )
     stages.append({"stage": "center_settle", "success": settled, "distances": distances})
     if not settled:
         return fail("center_settle")
@@ -570,13 +581,18 @@ def _staged_scripted_grasp(backend, object_name: str, source: str) -> tuple[bool
         _RETRACT_BY_LEVEL[level_index] if level_index < len(_RETRACT_BY_LEVEL) else True
     )
     if should_retract:
-        for joint_name, (qpos, qvel) in posture.items():
-            try:
-                env.sim.data.set_joint_qpos(joint_name, qpos)
-                env.sim.data.set_joint_qvel(joint_name, qvel)
-            except Exception:
-                continue
-        env.sim.forward()
+        # 不再一次性 qpos 直设回 ready 姿态(轨迹里表现为手臂瞬移),
+        # 而是把目标姿态挂到后端: 下一段导航腿的前 12 步内由
+        # skills/fused_retract.py 边行驶边逐帧插值(融合回缩,
+        # 底盘离站与收臂并行, 无原地等待, 官方驱动层零改动)。
+        from robot_agent.skills.fused_retract import posture_index_from_named
+
+        try:
+            backend._pending_retract_posture = posture_index_from_named(
+                env, posture,
+            )
+        except Exception:
+            backend._pending_retract_posture = None
 
     if hasattr(backend, "_record_trajectory_frame"):
         backend._record_trajectory_frame()
@@ -615,6 +631,15 @@ class _PostureLock:
 
     def release(self) -> None:
         self._restore(self._raw_env, self._posture)
+
+
+def _combined_or_inplace_turn(backend, pose: dict) -> dict:
+    """原地转向到抓取 yaw。
+
+    边开边转的旋转已由 move 层沿 A* 网格安全腿完成(见 move.py 的
+    goal_yaw 注入),到这里只剩零角度残量,原地转向会立即提前退出。
+    """
+    return _turn_to_grasp_yaw(backend, pose)
 
 
 def _turn_to_grasp_yaw(backend, pose: dict) -> dict:
@@ -779,7 +804,7 @@ class PickUpSkill(BaseSkill):
             if initial_base_pose is not None:
                 # 编排层已把底盘开到 live 站位;这里只差最后转向,
                 # 用动画转向而不是直接 snap。
-                turn_result = _turn_to_grasp_yaw(
+                turn_result = _combined_or_inplace_turn(
                     self._backend, initial_base_pose,
                 )
                 grasp_pose_source = "physically_navigated_live_object_pose"
@@ -818,7 +843,7 @@ class PickUpSkill(BaseSkill):
                                 "ok": False,
                             },
                         )
-                    turn_result = _turn_to_grasp_yaw(
+                    turn_result = _combined_or_inplace_turn(
                         self._backend, dynamic_pose,
                     )
                     grasp_pose_diagnostics["turn_result"] = turn_result

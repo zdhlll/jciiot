@@ -2,24 +2,24 @@
   "task_index": 2,
   "env_name": "FactorySorting5_3FO3ERTPXEUT",
   "status": "OK",
-  "trajectory": "/home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting5_3FO3ERTPXEUT/trajectory_20260815_184436_OK.json",
-  "elapsed_sec": 80.409,
+  "trajectory": "/home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting5_3FO3ERTPXEUT/trajectory_20260816_202253_OK.json",
+  "elapsed_sec": 70.628,
   "score": 20,
   "score_rule_version": "grasp_success_gate_l5_multi_v2",
   "details": {
     "total": 20,
     "items": [
       {
-        "label": "Grasp success & left source (grasp=yes, dx_src=4.78m, dy_src=15.74m)",
+        "label": "Grasp success & left source (grasp=yes, dx_src=4.80m, dy_src=15.74m)",
         "score": 10,
         "ok": true
       },
       {
-        "label": "Object reached target table after grasp (grasp=yes, dist=0.05m, x=4.93, y=-7.27, z=1.29)",
+        "label": "Object reached target table after grasp (grasp=yes, dist=0.07m, x=4.94, y=-7.27, z=1.29)",
         "score": 10,
         "ok": true
       }
     ]
   },
-  "saved_at": "2026-08-15 18:45:57"
+  "saved_at": "2026-08-16 20:24:03"
 }

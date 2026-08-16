@@ -2,44 +2,44 @@
   "task_index": 4,
   "env_name": "FactorySorting9_3FO3ERT2C5FP",
   "status": "OK",
-  "trajectory": "/home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting9_3FO3ERT2C5FP/trajectory_20260815_184814_OK.json",
-  "elapsed_sec": 257.13,
+  "trajectory": "/home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting9_3FO3ERT2C5FP/trajectory_20260816_202604_OK.json",
+  "elapsed_sec": 244.777,
   "score": 30,
   "score_rule_version": "grasp_success_gate_l5_multi_v2",
   "details": {
     "total": 30,
     "items": [
       {
-        "label": "L5 white_tote_b01_left_center: grasped and left input_1 (grasp=yes, dx_src=0.74m, dy_src=1.09m)",
+        "label": "L5 white_tote_b01_left_center: grasped and left input_1 (grasp=yes, dx_src=0.73m, dy_src=1.09m)",
         "score": 5,
         "ok": true
       },
       {
-        "label": "L5 white_tote_b01_left_center: placed at aux_output_1 (grasp=yes, dist=0.12m, x=0.16, y=8.59, z=1.10)",
+        "label": "L5 white_tote_b01_left_center: placed at aux_output_1 (grasp=yes, dist=0.14m, x=0.16, y=8.61, z=1.10)",
         "score": 5,
         "ok": true
       },
       {
-        "label": "L5 white_tote_b01_left_front: grasped and left input_1 (grasp=yes, dx_src=0.74m, dy_src=1.09m)",
+        "label": "L5 white_tote_b01_left_front: grasped and left input_1 (grasp=yes, dx_src=0.73m, dy_src=1.09m)",
         "score": 5,
         "ok": true
       },
       {
-        "label": "L5 white_tote_b01_left_front: placed at aux_output_1 (grasp=yes, dist=0.61m, x=0.75, y=8.59, z=1.10)",
+        "label": "L5 white_tote_b01_left_front: placed at aux_output_1 (grasp=yes, dist=0.65m, x=0.77, y=8.63, z=1.10)",
         "score": 5,
         "ok": true
       },
       {
-        "label": "L5 white_tote_b01_left_back: grasped and left input_1 (grasp=yes, dx_src=0.74m, dy_src=1.04m)",
+        "label": "L5 white_tote_b01_left_back: grasped and left input_1 (grasp=yes, dx_src=0.73m, dy_src=1.04m)",
         "score": 5,
         "ok": true
       },
       {
-        "label": "L5 white_tote_b01_left_back: placed at aux_output_1 (grasp=yes, dist=0.59m, x=-0.43, y=8.59, z=1.10)",
+        "label": "L5 white_tote_b01_left_back: placed at aux_output_1 (grasp=yes, dist=0.59m, x=-0.43, y=8.62, z=1.10)",
         "score": 5,
         "ok": true
       }
     ]
   },
-  "saved_at": "2026-08-15 18:52:31"
+  "saved_at": "2026-08-16 20:30:08"
 }

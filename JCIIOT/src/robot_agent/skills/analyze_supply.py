@@ -518,7 +518,9 @@ _SPAWN_ROW_MIN_WIDTH = 0.20
 _SPAWN_ARM_Z = (1.00, 1.70)
 
 
-def _spawn_north_route(backend, goal_xy) -> list[tuple[float, float]]:
+def _spawn_north_route(
+    backend, goal_xy, *, scene=None, grid=None,
+) -> list[tuple[float, float]]:
     """Spawn→grasp north-exit waypoints derived from live geometry.
 
     The westbound row must clear every same-height machine module on its
@@ -527,7 +529,11 @@ def _spawn_north_route(backend, goal_xy) -> list[tuple[float, float]]:
     band centre with the spawn column's x unchanged.  When the grasp pose
     lies below the band, the route becomes an L: west along the row to the
     goal column, then the descent happens there — verified clear of
-    machinery.  Returns an empty list when the north exit does not apply.
+    machinery.  The goal-column waypoint sits at the latitude where the
+    westbound leg first reaches the goal column (derived from the same A*
+    the leg would run), so the leg does not climb back up to the band
+    centre when machine blocks force it to a lower corridor.
+    Returns an empty list when the north exit does not apply.
     """
 
     from robosuite.environments.factory_sorting.load_factory_sorting_1_3fo3erfhisem_collect import (
@@ -613,7 +619,29 @@ def _spawn_north_route(backend, goal_xy) -> list[tuple[float, float]]:
             *_SPAWN_ARM_Z,
         ):
             return []
-        route.append((goal_x, row))
+        # Machine blocks inside the band can force the westbound A* down
+        # to a lower corridor; anchoring the waypoint at the band centre
+        # would make the leg climb back up before the descent.  Anchor it
+        # at the corridor floor instead — the lowest latitude of the same
+        # A* the leg would run — so the leg ends where the corridor is and
+        # the final descent starts there without a climb.
+        wp_y = row
+        if scene is not None and grid is not None:
+            from robot_agent.core.map_loader import plan_world_path
+
+            try:
+                path = plan_world_path(
+                    {"bounds": scene.bounds, "resolution": scene.resolution},
+                    grid,
+                    np.array([spawn_x, row], dtype=float),
+                    np.array([goal_x, row], dtype=float),
+                )
+            except Exception:
+                path = None
+            if path:
+                floor = min(float(p[1]) for p in path)
+                wp_y = min(row, max(floor, goal_y))
+        route.append((goal_x, wp_y))
     logger.info(
         "Spawn north-exit route: %s band [%.3f, %.3f] goal_y=%.3f",
         [(round(p[0], 2), round(p[1], 2)) for p in route], row_lo, row_hi, goal_y,
@@ -669,6 +697,9 @@ class AnalyzeSupplySkill(BaseSkill):
         object_name: str,
         final_label: str,
         append_exact_final: bool = False,
+        final_goal_yaw: float | None = None,
+        final_sync_attachment: bool = False,
+        final_band_half: float | None = None,
     ) -> SkillResult:
         """逐段 A* 导航通过一串 waypoint,全程物理行驶(无瞬移)。"""
         last_result = None
@@ -680,6 +711,14 @@ class AnalyzeSupplySkill(BaseSkill):
             step_meta["inputs"]["append_exact_goal"] = bool(
                 append_exact_final and index == leg_count - 1
             )
+            # 末腿边开边转:与 place_metadata 的旋转参数同源
+            if index == leg_count - 1 and final_goal_yaw is not None:
+                step_meta["inputs"]["goal_yaw"] = float(final_goal_yaw)
+                step_meta["inputs"]["rotating_sync_attachment"] = bool(
+                    final_sync_attachment,
+                )
+                if final_band_half is not None:
+                    step_meta["inputs"]["rotating_band_half"] = float(final_band_half)
             last_result = self._move.run(ExecutionContext(
                 task=f"{final_label} leg {index + 1}/{leg_count}",
                 metadata=step_meta,
@@ -733,6 +772,8 @@ class AnalyzeSupplySkill(BaseSkill):
                 staging_route = _spawn_north_route(
                     self._backend,
                     planned_grasp_pose["xy"] if planned_grasp_pose is not None else None,
+                    scene=self._move._scene,
+                    grid=self._move._grid,
                 )
                 if staging_route:
                     staging = self._run_waypoint_legs(
@@ -747,6 +788,20 @@ class AnalyzeSupplySkill(BaseSkill):
             if env_name == "FactorySorting9_3FO3ERT2C5FP" and object_index > 0:
                 # 空车回程走北侧过道中线。旧路线绕南侧横向过道,
                 # 每次回程多跑约 34 米。
+                # 回程腿前 12 步同时融合"抓取姿态恢复"(否则恢复在
+                # 抓取开始前一次性 qpos 直设, 轨迹里表现为手臂瞬移)。
+                snapshot = getattr(self._backend, "_grasp_posture_snapshot", None)
+                if snapshot:
+                    from robot_agent.skills.fused_retract import (
+                        posture_index_from_named,
+                    )
+
+                    try:
+                        self._backend._pending_retract_posture = (
+                            posture_index_from_named(self._backend.env, snapshot)
+                        )
+                    except Exception:
+                        self._backend._pending_retract_posture = None
                 corridor_y, source_clear_x = _l5_aisle_waypoint(
                     self._move._scene, source, target,
                 )
@@ -773,6 +828,10 @@ class AnalyzeSupplySkill(BaseSkill):
                 source_metadata = self._step_inputs(context, source, object_name)
                 source_metadata["inputs"]["target"] = (
                     f"{float(desired_xy[0]):.6f}, {float(desired_xy[1]):.6f}"
+                )
+                # 末段边开边转:move 层沿网格安全腿转到抓取 yaw
+                source_metadata["inputs"]["goal_yaw"] = float(
+                    planned_grasp_pose["yaw"],
                 )
                 source_metadata["inputs"]["allow_nearest_reachable"] = True
                 source_metadata["inputs"]["append_exact_goal"] = True
@@ -820,6 +879,13 @@ class AnalyzeSupplySkill(BaseSkill):
             )
             move_metadata["inputs"]["allow_nearest_reachable"] = True
             move_metadata["inputs"]["append_exact_goal"] = True
+            # 放置末段的边开边转:转到面向放置点,携箱需逐步同步附着
+            move_metadata["inputs"]["goal_yaw"] = float(np.arctan2(
+                float(place_xy[1]) - float(base_goal[1]),
+                float(place_xy[0]) - float(base_goal[0]),
+            ))
+            move_metadata["inputs"]["rotating_sync_attachment"] = True
+            move_metadata["inputs"]["rotating_band_half"] = 1.25
             if env_name == "FactorySorting9_3FO3ERT2C5FP":
                 # 先向东直拉,让箱子离开 input_1 货架,再进入底盘最短
                 # 路径选中的北侧过道中线。箱子悬在底盘西侧约 0.95m,
@@ -839,6 +905,12 @@ class AnalyzeSupplySkill(BaseSkill):
                     object_name=object_name,
                     final_label=f"carry {object_name} safely to {target}",
                     append_exact_final=True,
+                    final_goal_yaw=float(np.arctan2(
+                        float(place_xy[1]) - float(base_goal[1]),
+                        float(place_xy[0]) - float(base_goal[0]),
+                    )),
+                    final_sync_attachment=True,
+                    final_band_half=1.25,
                 )
             elif env_name in {
                 "FactorySorting3_3FO3ERRPH7X9",
@@ -859,6 +931,12 @@ class AnalyzeSupplySkill(BaseSkill):
                     object_name=object_name,
                     final_label=f"carry {object_name} safely to {target}",
                     append_exact_final=True,
+                    final_goal_yaw=float(np.arctan2(
+                        float(place_xy[1]) - float(base_goal[1]),
+                        float(place_xy[0]) - float(base_goal[0]),
+                    )),
+                    final_sync_attachment=True,
+                    final_band_half=1.25,
                 )
             else:
                 move_target = self._move.run(ExecutionContext(

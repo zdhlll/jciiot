@@ -81,6 +81,47 @@ class MoveSkill(BaseSkill):
             # 连续执行。
             path = list(path) + [np.asarray(goal_xy, dtype=float).copy()]
 
+        # 融合回缩:抓取后的收臂(或 L5 抓取前的姿态恢复)挂在后端
+        # 的 pending 姿态上,由本腿前 12 步边行驶边逐帧插值,剩余
+        # 路径交还官方 follow_path —— 官方驱动层零改动(见
+        # skills/fused_retract.py)。
+        if getattr(self._backend, "_pending_retract_posture", None) is not None:
+            from robot_agent.skills import fused_retract
+            path = fused_retract.run_fused_retract_segment(self._backend, path)
+
+        # 旋转合入导航(深集成):路径切成三段——旋转前段照常
+        # follow_path,中间一段网格安全腿边开边转到 goal_yaw,
+        # 盲尾直行照旧。合并腿任何预检查不通过则旋转段+盲尾
+        # 整体照常 follow_path,由调用方的原地转向兜底。
+        goal_yaw = inputs.get("goal_yaw")
+        combined = None
+        skip_reason = None
+        if goal_yaw is not None:
+            from robot_agent.skills import rotating_approach
+            split = rotating_approach.split_rotating_tail(path)
+            if split is not None:
+                approach, rot_seg, rest = split
+                # 先开完旋转段之前的路径(不能丢,否则底盘会瞬移)
+                if len(approach) >= 2 and not self._backend.follow_path(approach):
+                    final_xy, final_yaw = self._backend.get_base_pose()
+                    return SkillResult(
+                        skill_name=self.name,
+                        success=False,
+                        message=f"Failed to reach rotating-segment entry: {target}",
+                        payload={"action": "move", "target": target},
+                    )
+                combined = rotating_approach.try_combined_approach(
+                    self._backend, rot_seg, float(goal_yaw),
+                    band_half=inputs.get("rotating_band_half"),
+                    label="nav_combined",
+                    sync_attachment=bool(inputs.get("rotating_sync_attachment", False)),
+                )
+                if combined is not None:
+                    path = rest
+                else:
+                    path = list(rot_seg[:-1]) + rest
+            skip_reason = rotating_approach.last_skip_reason()
+
         reached = self._backend.follow_path(path)
         final_xy, final_yaw = self._backend.get_base_pose()
         return SkillResult(
@@ -107,6 +148,8 @@ class MoveSkill(BaseSkill):
                     "robot_base_ori": [0.0, 0.0, float(final_yaw)],
                 },
                 "waypoints": len(path),
+                "combined_approach": combined,
+                "combined_skip_reason": skip_reason,
                 "reached": reached,
             },
         )

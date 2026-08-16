@@ -13,10 +13,10 @@
     "max_steps": 3000,
     "waypoint_tolerance": 0.01,
     "settle_steps": 0,
-    "max_linear": 2.00,
-    "max_angular": 3.00,
-    "k_linear": 2.00,
-    "k_angular": 3.00,
+    "max_linear": 2.0,
+    "max_angular": 3.0,
+    "k_linear": 2.0,
+    "k_angular": 3.0,
     "holonomic_base": true,
     "yaw_control": false,
     "turn_in_place_angle": 0.65,
@@ -36,24 +36,24 @@
   },
   "lift": {
     "_comment": "抬升参数 —— 抓取后验证物体是否牢固的抬升阶段",
-    "lift_height": 0.15,
+    "lift_height": 0.20,
     "max_steps": 300,
-    "hold_steps": 20,
+    "hold_steps": 10,
     "tolerance": 0.02,
-    "max_action": 0.80
+    "max_action": 0.8
   },
   "turn": {
     "_comment": "转向参数 —— 放置前机器人面向目标站的转向控制",
     "tolerance": 0.02,
-    "max_iters": 8,
-    "turn_steps": 40,
-    "settle_steps": 6
+    "max_iters": 6,
+    "turn_steps": 25,
+    "settle_steps": 4
   },
   "place": {
     "_comment": "放置参数 —— 控制物体下放和释放的精细操作",
     "lower_delta": 0.18,
-    "lower_steps": 25,
-    "release_steps": 40,
+    "lower_steps": 20,
+    "release_steps": 30,
     "release_clearance": 0.04
   }
 }
