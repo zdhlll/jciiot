@@ -1,0 +1,30 @@
+command: /data/zhouyang/conda/envs/jciiot/bin/python3.11 /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/src/robot_agent/task_subprocess_runner.py --task "Current Task Material Information:
+Material Name: Green-rimmed storage bin
+Starting Location: Pick Station 1
+Target Location: Place Station 3
+Quantity to Transport: 1" --task-index 1 --timestamp 20260816_202137 --result-json /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting3_3FO3ERRPH7X9/result_20260816_202137.json --app-dir /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT --knowledge-enabled true
+
+===== OUTPUT =====
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_left_gripper_qpos', 'robot0_left_eef_quat', 'robot0_right_eef_quat', 'robot0_right_gripper_qpos', 'robot0_left_eef_pos', 'robot0_right_eef_pos']
+using obs modality: rgb with keys: []
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created GPT_Backbone model with number of parameters: 3156480
+Loaded robomimic checkpoint: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/model_epoch_200.pth
+Evaluation device: cpu
+turn_to_output_result: success=True, turn_steps=0, target_yaw=-3.139453, final_yaw=-3.139611, final_error=0.000158, xy_drift=0.000000
+lift_initial_grasp_status: {'right': True, 'left': True}
+lift_start: object=green_tote_b01_upper, start_object_z=1.401045, target_object_z=1.601045, lift_height=0.200000
+lift_result: success=True, final_object_z=1.573838, lifted=0.172793, target_lift=0.200000, final_grasp_status={'right': True, 'left': True}
+transport_attachment_enabled: object=green_tote_b01_upper, joint=green_tote_b01_upper_joint0, relative_xy=[0.967, -0.0074], world_z=1.380059, held_gripper_joints=12
+turn_to_output_result: success=True, turn_steps=0, target_yaw=-0.000000, final_yaw=-0.000011, final_error=0.000011, xy_drift=0.000000
+
+===== PROCESS EXIT =====
+returncode: 0

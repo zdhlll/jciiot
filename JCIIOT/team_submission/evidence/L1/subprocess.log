@@ -1,0 +1,37 @@
+command: /data/zhouyang/conda/envs/jciiot/bin/python3.11 /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/src/robot_agent/task_subprocess_runner.py --task "For this task, you need to transport a blue, hollow plastic box. Please move it from the starting point \"Pick Station 2\" to the destination \"Place Station 3\". Please follow the Standard Operating Procedure (SOP)." --task-index 0 --timestamp 20260816_201810 --result-json /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting1_3FO3ERFHISEM/result_20260816_201810.json --app-dir /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT --knowledge-enabled true
+
+===== OUTPUT =====
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_right_eef_pos', 'robot0_right_eef_quat', 'robot0_left_eef_pos', 'robot0_left_gripper_qpos', 'robot0_right_gripper_qpos', 'robot0_left_eef_quat']
+using obs modality: rgb with keys: []
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created GPT_Backbone model with number of parameters: 3156480
+Loaded robomimic checkpoint: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/model_epoch_200.pth
+Evaluation device: cpu
+turn_to_output_result: success=True, turn_steps=0, target_yaw=-3.139453, final_yaw=-3.139845, final_error=0.000392, xy_drift=0.000000
+lift_initial_grasp_status: {'right': True, 'left': True}
+lift_start: object=line_5_container_h01_near, start_object_z=1.250523, target_object_z=1.450523, lift_height=0.200000
+lift_result: success=True, final_object_z=1.429837, lifted=0.179314, target_lift=0.200000, final_grasp_status={'right': True, 'left': True}
+transport_attachment_enabled: object=line_5_container_h01_near, joint=line_5_container_h01_near_joint0, relative_xy=[0.9489, -0.0008], world_z=1.401164, held_gripper_joints=12
+[RETRACT-DEBUG] pending retract set: 15 joints
+[RETRACT-DEBUG] move: pending retract found, running fused segment
+[RETRACT-DEBUG] step=0 base=(8.00,4.62) goal=(8.00,4.60) dist=0.021 wp=0/62
+[RETRACT-DEBUG] after blend: alpha=0.083 qpos_arm3=1.6583 (start=-1.3110 target=2.1378)
+[RETRACT-DEBUG] step=1 base=(8.00,4.60) goal=(8.00,4.60) dist=0.000 wp=0/62
+[RETRACT-DEBUG] step=2 base=(8.00,4.60) goal=(8.00,4.25) dist=0.350 wp=1/62
+[RETRACT-DEBUG] after blend: alpha=0.250 qpos_arm3=1.7455 (start=-1.3110 target=2.1378)
+[RETRACT-DEBUG] step=10 base=(8.00,3.95) goal=(8.00,3.85) dist=0.100 wp=2/62
+[RETRACT-DEBUG] after blend: alpha=0.917 qpos_arm3=2.0942 (start=-1.3110 target=2.1378)
+[RETRACT-DEBUG] step=11 base=(8.00,3.85) goal=(8.00,3.85) dist=0.000 wp=2/62
+[RETRACT-DEBUG] move: fused segment done, remaining points=60
+turn_to_output_result: success=True, turn_steps=0, target_yaw=-0.000000, final_yaw=0.012644, final_error=-0.012645, xy_drift=0.000000
+
+===== PROCESS EXIT =====
+returncode: 0

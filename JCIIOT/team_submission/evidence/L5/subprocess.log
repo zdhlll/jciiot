@@ -1,0 +1,38 @@
+command: /data/zhouyang/conda/envs/jciiot/bin/python3.11 /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/src/robot_agent/task_subprocess_runner.py --task "Move the three white-rimmed storage bins from Pick Station 6 to Place Station 1." --task-index 4 --timestamp 20260816_202604 --result-json /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting9_3FO3ERT2C5FP/result_20260816_202604.json --app-dir /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT --knowledge-enabled true
+
+===== OUTPUT =====
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_left_gripper_qpos', 'robot0_right_eef_pos', 'robot0_right_eef_quat', 'robot0_left_eef_pos', 'robot0_left_eef_quat', 'robot0_right_gripper_qpos']
+using obs modality: rgb with keys: []
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created GPT_Backbone model with number of parameters: 3156480
+Loaded robomimic checkpoint: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/model_epoch_200.pth
+Evaluation device: cpu
+turn_to_output_result: success=True, turn_steps=0, target_yaw=-3.140000, final_yaw=-3.141172, final_error=0.001172, xy_drift=0.000000
+lift_initial_grasp_status: {'right': True, 'left': True}
+lift_start: object=white_tote_b01_left_front, start_object_z=1.493440, target_object_z=1.693440, lift_height=0.200000
+lift_result: success=True, final_object_z=1.667174, lifted=0.173734, target_lift=0.200000, final_grasp_status={'right': True, 'left': True}
+transport_attachment_enabled: object=white_tote_b01_left_front, joint=white_tote_b01_left_front_joint0, relative_xy=[0.9685, -0.0033], world_z=1.475719, held_gripper_joints=12
+turn_to_output_result: success=True, turn_steps=0, target_yaw=1.535867, final_yaw=1.534016, final_error=0.001851, xy_drift=0.000000
+turn_to_output_result: success=True, turn_steps=0, target_yaw=-3.140000, final_yaw=-3.140034, final_error=0.000034, xy_drift=0.000000
+lift_initial_grasp_status: {'right': True, 'left': True}
+lift_start: object=white_tote_b01_left_center, start_object_z=1.493449, target_object_z=1.693449, lift_height=0.200000
+lift_result: success=True, final_object_z=1.667233, lifted=0.173784, target_lift=0.200000, final_grasp_status={'right': True, 'left': True}
+transport_attachment_enabled: object=white_tote_b01_left_center, joint=white_tote_b01_left_center_joint0, relative_xy=[0.9685, -0.0043], world_z=1.475788, held_gripper_joints=12
+turn_to_output_result: success=True, turn_steps=0, target_yaw=1.525606, final_yaw=1.534016, final_error=-0.008410, xy_drift=0.000000
+turn_to_output_result: success=True, turn_steps=0, target_yaw=-3.140000, final_yaw=-3.140027, final_error=0.000027, xy_drift=0.000000
+lift_initial_grasp_status: {'right': True, 'left': True}
+lift_start: object=white_tote_b01_left_back, start_object_z=1.493438, target_object_z=1.693438, lift_height=0.200000
+lift_result: success=True, final_object_z=1.667118, lifted=0.173680, target_lift=0.200000, final_grasp_status={'right': True, 'left': True}
+transport_attachment_enabled: object=white_tote_b01_left_back, joint=white_tote_b01_left_back_joint0, relative_xy=[0.9685, -0.0044], world_z=1.475654, held_gripper_joints=12
+turn_to_output_result: success=True, turn_steps=0, target_yaw=1.533975, final_yaw=1.534027, final_error=-0.000052, xy_drift=0.000000
+
+===== PROCESS EXIT =====
+returncode: 0

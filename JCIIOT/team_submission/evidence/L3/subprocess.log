@@ -1,0 +1,26 @@
+command: /data/zhouyang/conda/envs/jciiot/bin/python3.11 /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/src/robot_agent/task_subprocess_runner.py --task "Please follow the SOP. The object is a blue material transfer bin. The Pick Station is Pick Station 1, and the Place Station is Place Station 2." --task-index 2 --timestamp 20260816_202253 --result-json /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/recordings/FactorySorting5_3FO3ERTPXEUT/result_20260816_202253.json --app-dir /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT --knowledge-enabled true
+
+===== OUTPUT =====
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+[robosuite INFO] Loading controller configuration from: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/controllers/config/robots/default_tiago.json (composite_controller_factory.py:121)
+
+============= Initialized Observation Utils with Obs Spec =============
+
+using obs modality: low_dim with keys: ['robot0_right_gripper_qpos', 'robot0_left_eef_pos', 'robot0_right_eef_pos', 'robot0_left_gripper_qpos', 'robot0_left_eef_quat', 'robot0_right_eef_quat']
+using obs modality: rgb with keys: []
+using obs modality: depth with keys: []
+using obs modality: scan with keys: []
+Created GPT_Backbone model with number of parameters: 3156480
+Loaded robomimic checkpoint: /home/zhouyang/JCIIOT/jci_test/JCIIOT2026/JCIIOT/robosuite/robosuite/model_epoch_200.pth
+Evaluation device: cpu
+turn_to_output_result: success=True, turn_steps=0, target_yaw=1.570796, final_yaw=1.570766, final_error=0.000030, xy_drift=0.000000
+lift_initial_grasp_status: {'right': True, 'left': True}
+lift_start: object=blue_tote_b01_far_right, start_object_z=1.493436, target_object_z=1.693436, lift_height=0.200000
+lift_result: success=True, final_object_z=1.667215, lifted=0.173779, target_lift=0.200000, final_grasp_status={'right': True, 'left': True}
+transport_attachment_enabled: object=blue_tote_b01_far_right, joint=blue_tote_b01_far_right_joint0, relative_xy=[0.9686, -0.0043], world_z=1.475769, held_gripper_joints=12
+turn_to_output_result: success=True, turn_steps=0, target_yaw=-0.000001, final_yaw=-0.000015, final_error=0.000014, xy_drift=0.000000
+
+===== PROCESS EXIT =====
+returncode: 0
