@@ -29,6 +29,8 @@
 
 ## 仓库结构
 最终轨迹路径文件在JCIIOT/team_submissoin/evidence路径下。
+关卡LLM模型使用deepseek-v4-flash
+VLM模型使用glm-5v-turbo
 ```
 ├── JCIIOT/                          # 官方项目（可复现代码）
 │   ├── app.py                       # 官方入口（未修改）
