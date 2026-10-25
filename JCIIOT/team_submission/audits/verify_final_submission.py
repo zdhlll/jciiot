@@ -9,9 +9,10 @@
    task_config.json、robosuite/）逐文件一致；全部改动落在允许区域内。
 
 用法：
-    python team_submission/audits/verify_final_submission.py [--baseline <commit>]
+    python team_submission/audits/verify_final_submission.py [--baseline <commit>] [--check-only]
     默认基线为官方内容基线 0dcdddf（团队 fork 与官方仓库树逐字节一致时的提交）。
-    运行后会把边界审计结果写入同目录 official_boundary_audit.json / .md。
+    默认会把边界审计结果写入同目录 official_boundary_audit.json / .md；
+    --check-only 用于 CI，只校验而不改写报告。
 """
 
 from __future__ import annotations
@@ -73,7 +74,10 @@ SCHEMA_KEYS = [
 def git(*args: str) -> str:
     out = subprocess.run(
         ["git", "-c", "core.quotepath=false", "-C", str(REPO_ROOT), *args],
-        check=True, capture_output=True, text=True,
+        check=True,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
     )
     return out.stdout
 
@@ -142,6 +146,7 @@ def check_boundary(baseline: str) -> tuple[bool, dict]:
     root_allowed = {
         "README.md", "技术报告.md", "新颖性声明.md", "复现指南.md",
         "提交合规说明.md", "ERRATUM.md", ".gitattributes", ".gitignore",
+        ".github/workflows/portfolio-verify.yml",
     }
     violations = [
         p for p in sorted(changed)
@@ -175,6 +180,11 @@ def check_boundary(baseline: str) -> tuple[bool, dict]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--baseline", default=DEFAULT_BASELINE)
+    parser.add_argument(
+        "--check-only",
+        action="store_true",
+        help="Validate without rewriting the generated audit reports (recommended for CI).",
+    )
     args = parser.parse_args()
 
     ev_ok, ev_msgs = check_evidence()
@@ -200,25 +210,28 @@ def main() -> int:
         print("\nFinal submission verification: FAILED")
         return 1
 
-    (AUDITS / "official_boundary_audit.json").write_text(
-        json.dumps(audit, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
-    lines = [
-        "# 受保护边界审计报告",
-        "",
-        f"- 基线提交（官方内容基线）: `{audit['baseline_commit']}`",
-        f"- 提交版本: `{audit['head_commit']}`",
-        f"- 受保护文件检查数: {audit['protected_files_checked']}",
-        f"- 修改: {len(audit['protected_modified'])}，新增: {len(audit['protected_added'])}，缺失: {len(audit['protected_missing'])}",
-        f"- 越界改动: {len(audit['changed_paths_violating_allowed_prefixes'])}",
-        f"- SOP 生成代码保留: {'是' if audit['sop_generation_code_present'] else '否'}",
-        f"- 结论: {'合规' if audit['summary']['compliant'] else '违规'}",
-        "",
-        "受保护区域：`src/robot_agent/core/`、`src/robot_agent/environments/`、`app.py`、`knowledge/task_config.json`、`robosuite/`。",
-        "本报告由 verify_final_submission.py 自动生成。",
-    ]
-    (AUDITS / "official_boundary_audit.md").write_text("\n".join(lines), encoding="utf-8")
-    print(f"\n审计报告已写入 {AUDITS / 'official_boundary_audit.json'} / .md")
+    if args.check_only:
+        print("\nCheck-only mode: audit reports were not rewritten.")
+    else:
+        (AUDITS / "official_boundary_audit.json").write_text(
+            json.dumps(audit, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        lines = [
+            "# 受保护边界审计报告",
+            "",
+            f"- 基线提交（官方内容基线）: `{audit['baseline_commit']}`",
+            f"- 提交版本: `{audit['head_commit']}`",
+            f"- 受保护文件检查数: {audit['protected_files_checked']}",
+            f"- 修改: {len(audit['protected_modified'])}，新增: {len(audit['protected_added'])}，缺失: {len(audit['protected_missing'])}",
+            f"- 越界改动: {len(audit['changed_paths_violating_allowed_prefixes'])}",
+            f"- SOP 生成代码保留: {'是' if audit['sop_generation_code_present'] else '否'}",
+            f"- 结论: {'合规' if audit['summary']['compliant'] else '违规'}",
+            "",
+            "受保护区域：`src/robot_agent/core/`、`src/robot_agent/environments/`、`app.py`、`knowledge/task_config.json`、`robosuite/`。",
+            "本报告由 verify_final_submission.py 自动生成。",
+        ]
+        (AUDITS / "official_boundary_audit.md").write_text("\n".join(lines), encoding="utf-8")
+        print(f"\n审计报告已写入 {AUDITS / 'official_boundary_audit.json'} / .md")
     return 0
 
 
