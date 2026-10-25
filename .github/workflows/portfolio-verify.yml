@@ -1,0 +1,35 @@
+name: Portfolio verification
+
+on:
+  push:
+    branches:
+      - main
+      - "codex/**"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  submission-audit:
+    name: Full-score evidence and protected-boundary audit
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    env:
+      GIT_LFS_SKIP_SMUDGE: "1"
+    steps:
+      - name: Check out complete Git history without LFS payloads
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: false
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify submitted evidence and protected boundaries
+        run: python JCIIOT/team_submission/audits/verify_final_submission.py --check-only
